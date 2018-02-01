@@ -1,3 +1,6 @@
+#ifndef __UTILS_H__
+#define __UTILS_H__
+
 #include <iomanip>
 #include <string>
 #include <fstream>
@@ -23,6 +26,8 @@ namespace utils {
         std::ifstream in(p.string());
         std::stringstream buffer;
         buffer << in.rdbuf();
-        return std::move(buffer.str());
+        return buffer.str();
     }
 }
+
+#endif /* __UTILS_H__ */
