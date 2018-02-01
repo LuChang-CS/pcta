@@ -1,7 +1,11 @@
 #include <iomanip>
 #include <string>
+#include <fstream>
 #include <sstream>
 #include <ctime>
+#include <experimental/filesystem>
+
+namespace fs = std::experimental::filesystem;
 
 namespace utils {
     time_t str2time(const std::string &date) {
@@ -13,5 +17,12 @@ namespace utils {
 
     int daysbetween(long start, long end) {
         return (int) ((end - start) / (24 * 60 * 60));
+    }
+
+    std::string fileInputContent(fs::path p) {
+        std::ifstream in(p.string());
+        std::stringstream buffer;
+        buffer << in.rdbuf();
+        return std::move(buffer.str());
     }
 }
