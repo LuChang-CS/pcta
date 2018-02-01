@@ -1,3 +1,6 @@
+#ifndef __TIME_RANGE_H__
+#define __TIME_RANGE_H__
+
 #include <string>
 #include <ctime>
 
@@ -37,3 +40,5 @@ public:
         return this->end;
     }
 };
+
+#endif /* __TIME_RANGE_H__ */
