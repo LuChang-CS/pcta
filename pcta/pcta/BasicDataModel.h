@@ -18,10 +18,11 @@ private:
     WordCountList ***wordCountLists;
 
 public:
-    BasicDataModel(Dictionary *dictionary, TimeRange *timeRange, CategoryRange *categoryRange) {
-        this->wordCountLists = new (WordCountList ***)[this->timeSlotNumber];
+    BasicDataModel(Dictionary *dictionary, TimeRange *timeRange, CategoryRange *categoryRange)
+    : DataModel(dictionary, timeRange, categoryRange) {
+        this->wordCountLists = new WordCountList **[this->timeSlotNumber];
         for (int m = 0; m < this->timeSlotNumber; ++m) {
-            WordCountList **list = new (WordCountList **)[this->categoryNumber];
+            WordCountList **list = new WordCountList *[this->categoryNumber];
             for (int n = 0; n < this->categoryNumber; ++n) {
                 WordCountList *l = new WordCountList();
                 list[n] = l;
@@ -88,12 +89,13 @@ public:
                 json::Value::ConstMemberIterator wordIt = value.MemberBegin();
                 l->reserve(value.MemberCount());
                 while (wordIt != value.MemberEnd()) {
-                    std::string word = it->name.GetString();
-                    int count = it->value.GetInt();
+                    std::string word = wordIt->name.GetString();
+                    int count = wordIt->value.GetInt();
                     int wordIndex = this->dictionary->get(word);
                     l->put(wordIndex, count);
-                    ++it;
+                    ++wordIt;
                 }
+                ++it;
             }
             current = utils::nextDate(current);
         }

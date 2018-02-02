@@ -45,6 +45,14 @@ public:
         return this->categoryRange;
     }
 
+    int getTimeSlotNumber() {
+        return this->timeSlotNumber;
+    }
+
+    int getCategoryNumber() {
+        return this->categoryNumber;
+    }
+
     virtual WordCountList *getWordCountList(int m, int n) = 0;
 
     virtual std::vector<WordCountList *>

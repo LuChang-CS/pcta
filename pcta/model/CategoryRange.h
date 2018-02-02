@@ -8,6 +8,8 @@
 
 #include "../libs/json/document.h"
 
+#include "../utils.h"
+
 namespace fs = std::experimental::filesystem;
 namespace json = rapidjson;
 
@@ -19,7 +21,7 @@ class CategoryRange {
 
 public:
     CategoryRange(const fs::path &p) {
-        this->setCategoryRange(d);
+        this->setCategoryRange(p);
         this->categoryNumber = this->categoryMap.size();
     }
 
@@ -31,7 +33,7 @@ public:
     }
 
     void setCategoryRange(const fs::path &p) {
-        const string content = utils::fileInputContent(p);
+        const std::string content = utils::fileInputContent(p);
         json::Document d;
         d.Parse(content.c_str());
         this->categoryMap.clear();
