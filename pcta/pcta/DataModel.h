@@ -57,8 +57,6 @@ public:
         return this->categoryNumber;
     }
 
-    virtual WordCountList *getWordCountList(int m, int n) = 0;
-
     virtual std::vector<WordCountList *>
     getListsByRange(int timeStart, int timeEnd, int categoryStart, int categoryEnd) = 0;
 };
