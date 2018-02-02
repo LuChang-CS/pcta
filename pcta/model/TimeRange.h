@@ -32,6 +32,10 @@ public:
         return utils::daysbetween(this->start, t);
     }
 
+    int getTimeSlotNumber(time_t date) {
+        return utils::daysbetween(this->start, date);
+    }
+
     time_t getStart() {
         return this->start;
     }
