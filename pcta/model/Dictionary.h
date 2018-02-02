@@ -23,7 +23,7 @@ public:
         }
     }
 
-    int get(std::string word) {
+    int get(std::string &word) {
         WordMap::const_iterator it = this->wordMap.find(word);
         return it == this->wordMap.end() ? -1 : it->second;
     }

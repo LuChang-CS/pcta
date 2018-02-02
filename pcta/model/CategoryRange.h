@@ -47,6 +47,7 @@ public:
                 index->push_back(a[0].GetInt());
                 index->push_back(a[1].GetInt());
             }
+            ++it;
         }
     }
 
@@ -54,12 +55,12 @@ public:
         return this->categoryNumber;
     }
 
-    int getCategoryNumber(std::string category) {
+    int getCategoryNumber(const std::string &category) {
         CategoryMap::const_iterator it = this->categoryMap.find(category);
         return it == this->categoryMap.end() ? -1 : it->second->at(0);
     }
 
-    std::vector<int> *getCategoryRange(std::string category) {
+    std::vector<int> *getCategoryRange(const std::string &category) {
         CategoryMap::const_iterator it = this->categoryMap.find(category);
         return it == this->categoryMap.end() ? NULL : it->second;
     }
