@@ -30,7 +30,7 @@ public:
 
     void setCategoryRange(const json::Document &d) {
         this->categoryMap.clear();
-        int size = d.Size();
+        int size = d.MemberCount();
         this->categoryMap.reserve(size);
         json::Value::ConstMemberIterator it = d.MemberBegin();
         while (it != d.MemberEnd()) {
@@ -41,12 +41,12 @@ public:
             index->reserve(2);
             if (type == json::kNumberType) {
                 index->push_back(it->value.GetInt());
-                this->categoryMap.insert(std::make_pair(category, index));
             } else {
                 const json::Value &a = it->value;
                 index->push_back(a[0].GetInt());
                 index->push_back(a[1].GetInt());
             }
+            this->categoryMap.insert(std::make_pair(category, index));
             ++it;
         }
     }

@@ -86,7 +86,7 @@ public:
 
                 const json::Value &value = it->value;
                 json::Value::ConstMemberIterator wordIt = value.MemberBegin();
-                l->reserve(value.Size());
+                l->reserve(value.MemberCount());
                 while (wordIt != value.MemberEnd()) {
                     std::string word = it->name.GetString();
                     int count = it->value.GetInt();
