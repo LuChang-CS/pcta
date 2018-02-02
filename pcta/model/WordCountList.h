@@ -25,6 +25,8 @@ public:
     typedef WordCountVector::iterator iterator;
     typedef WordCountVector::const_iterator const_iterator;
 
+    WordCountList() {}
+
     WordCountList(int size) {
         this->reserve(size);
     }
