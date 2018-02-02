@@ -14,7 +14,7 @@ class Dictionary {
     WordMap wordMap;
 
 public:
-    Dictionary(fs::path p) {
+    Dictionary(const fs::path &p) {
         std::ifstream in(p.string());
         std::string word;
         int i = 0;

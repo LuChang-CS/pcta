@@ -18,11 +18,11 @@ namespace utils {
         return std::mktime(&tm);
     }
 
-    int daysbetween(long start, long end) {
+    int daysbetween(time_t start, time_t end) {
         return (int) ((end - start) / (24 * 60 * 60));
     }
 
-    std::string fileInputContent(fs::path p) {
+    std::string fileInputContent(const fs::path &p) {
         std::ifstream in(p.string());
         std::stringstream buffer;
         buffer << in.rdbuf();
