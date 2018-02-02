@@ -4,9 +4,11 @@
 #include <unordered_map>
 #include <string>
 #include <vector>
+#include <experimental/filesystem>
 
 #include "../libs/json/document.h"
 
+namespace fs = std::experimental::filesystem;
 namespace json = rapidjson;
 
 typedef std::unordered_map<std::string, std::vector<int> *> CategoryMap;
@@ -16,7 +18,7 @@ class CategoryRange {
     int categoryNumber;
 
 public:
-    CategoryRange(const json::Document &d) {
+    CategoryRange(const fs::path &p) {
         this->setCategoryRange(d);
         this->categoryNumber = this->categoryMap.size();
     }
@@ -28,7 +30,10 @@ public:
         }
     }
 
-    void setCategoryRange(const json::Document &d) {
+    void setCategoryRange(const fs::path &p) {
+        const string content = utils::fileInputContent(p);
+        json::Document d;
+        d.Parse(content.c_str());
         this->categoryMap.clear();
         int size = d.MemberCount();
         this->categoryMap.reserve(size);
