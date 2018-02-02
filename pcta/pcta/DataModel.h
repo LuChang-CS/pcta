@@ -45,6 +45,10 @@ public:
         return this->categoryRange;
     }
 
+    Dictionary *getDictionary() {
+        return this->dictionary;
+    }
+
     int getTimeSlotNumber() {
         return this->timeSlotNumber;
     }
