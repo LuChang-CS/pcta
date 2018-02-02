@@ -11,10 +11,10 @@
 namespace fs = std::experimental::filesystem;
 
 namespace utils {
-    time_t str2time(const std::string &date) {
+    time_t str2time(const std::string &date, const char *format = "%Y-%m-%d") {
         std::tm tm = {};
         std::stringstream ss(date);
-        ss >> std::get_time(&tm, "%Y-%m-%d");
+        ss >> std::get_time(&tm, format);
         return std::mktime(&tm);
     }
 
