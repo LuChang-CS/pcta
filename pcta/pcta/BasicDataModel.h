@@ -2,6 +2,7 @@
 #define __BASIC_DATA_MODEL_H__
 
 #include <iostream>
+#include <fstream>
 #include <experimental/filesystem>
 
 #include "../libs/json/document.h"
@@ -98,6 +99,45 @@ public:
                 ++it;
             }
             current = utils::nextDate(current);
+        }
+    }
+
+    void saveModel(const fs::path &basePath) {
+        std::cout << "saveing basic data model" << std::endl;
+        fs::path modelPath = basePath / "model" / "basicModel";
+        if (!fs::is_directory(modelPath)) fs::create_directories(modelPath);
+        std::ofstream out(modelPath / "model");
+        for (int m = 0; m < this->timeSlotNumber; ++m) {
+            for (int n = 0; n < this->categoryNumber; ++n) {
+                WordCountList *l = this->getWordCountList(m, n);
+                WordCountList::iterator it = l->begin();
+                out << l->size() << std::endl;
+                while (it != l->end()) {
+                    out << (*it)->getWord() << ' ' << (*it)->getCount() << ' ';
+                    ++it;
+                }
+                out << std::endl;
+            }
+        }
+        out.close();
+    }
+
+    void loadModel(const fs::path &basePath) {
+        std::cout << "loading basic data model" << std::endl;
+        fs::path modelPath = basePath / "model" / "basicModel";
+        std::ifstream in(modelPath / "model");
+        for (int m = 0; m < this->timeSlotNumber; ++m) {
+            for (int n = 0; n < this->categoryNumber; ++n) {
+                int size;
+                in >> size;
+                WordCountList *l = this->getWordCountList(m, n);
+                l->reserve(size);
+                for (int i = 0; i < size; ++i) {
+                    int word, count;
+                    in >> word >> count;
+                    l->put(word, count);
+                }
+            }
         }
     }
 

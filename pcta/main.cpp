@@ -4,6 +4,11 @@
 #include <experimental/filesystem>
 
 #include "model/WordCountList.h"
+#include "model/Dictionary.h"
+#include "model/CategoryRange.h"
+#include "model/TimeRange.h"
+#include "pcta/BasicDataModel.h"
+#include "pcta/PCTAModel.h"
 #include "utils.h"
 
 #include "libs/json/document.h"
@@ -14,25 +19,23 @@ namespace json = rapidjson;
 using namespace std;
 
 int main() {
-    WordCountList *wordCountList = new WordCountList(5);
-    wordCountList->put(1, 5)->put(2, 3)->put(3, 1)->put(4, 2)->put(5, 4);
-    WordCountList::iterator it = wordCountList->begin();
-    WordCountList::const_iterator end = wordCountList->end();
-    wordCountList->sort();
-    while (it < end) {
-        cout << (*it)->toString() << endl;
-        ++it;
-    }
-    cout << endl;
+    fs::path basePath = "/media/sdb1/luchang/workspace/fdu/dataset/reuters/";
+    Dictionary dictionary(basePath / "dictionary");
+    CategoryRange categoryRange(basePath / "categories_dict");
+    TimeRange timeRange("2016-01-01", "2017-01-01");
 
-    WordCountList *w2 = new WordCountList(wordCountList->size());
-    w2->negativeReverse(wordCountList);
-    w2->add(wordCountList);
-    WordCountList::iterator it1 = w2->begin();
-    WordCountList::const_iterator end1 = w2->end();
-    while (it1 < end1) {
-        cout << (*it1)->toString() << endl;
-        ++it1;
-    }
+    BasicDataModel basicDataModel(&dictionary, &timeRange, &categoryRange);
+    basicDataModel.build(basePath);
+    basicDataModel.saveModel(basePath);
+
+    // cout << basicDataModel.getTimeSlotNumber() << " " << basicDataModel.getCategoryNumber() << endl;
+    PCTAModel pctaModel(&basicDataModel, basePath);
+    pctaModel.build();
+
+    // WordCountList *l = basicDataModel.getWordCountList(2, 5);
+    // WordCountList::iterator it = l->begin();
+    // for (; it != l->end(); ++it) {
+    //     cout << (*it)->toString() << endl;
+    // }
     return 0;
 }

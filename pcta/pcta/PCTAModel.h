@@ -46,6 +46,7 @@ private:
         WordCountList::iterator it = l->begin();
         while (it != l->end()) {
             out << (*it)->getWord() << ' ' << (*it)->getCount() << std::endl;
+            ++it;
         }
         out.close();
     }
@@ -76,13 +77,27 @@ private:
         this->saveList(p, l);
     }
 
+    void mkdir() {
+        if (!fs::is_directory(this->modelPath)) {
+            fs::create_directories(this->modelPath);
+        }
+        for (int m = 0; m < this->timeSlotNumber; ++m) {
+            fs::path timeDir = this->modelPath / std::to_string(m);
+            if (!fs::is_directory(timeDir)) {
+                fs::create_directory(timeDir);
+            }
+        }
+    }
+
 public:
 
     PCTAModel(BasicDataModel *basicDataModel, const fs::path &basePath)
-    : DataModel(basicDataModel->getDictionary(), basicDataModel->getTimeRange(), basicDataModel->getCategoryRange) {
+    : DataModel(basicDataModel->getDictionary(), basicDataModel->getTimeRange(), basicDataModel->getCategoryRange()) {
         this->basicDataModel = basicDataModel;
         this->basePath = basePath;
-        this->modelPath = basePath / "model";
+        this->modelPath = basePath / "model" / "pctaModel";
+
+        this->mkdir();
     }
 
     void build() {
@@ -92,7 +107,12 @@ public:
             tempLists[n] = NULL;
         }
         for (int m = 0; m < this->timeSlotNumber; ++m) {
-            WordCountList *l_mn, *l_prime_mnminus1, *l_prime_mminus1n, *l_prime_mminus1nminus1, *l_prime_mn;
+            std::cout << "building " << m << " in " << this->timeSlotNumber << std::endl;
+            WordCountList *l_mn = NULL,
+                        *l_prime_mnminus1 = NULL,
+                        *l_prime_mminus1n = NULL,
+                        *l_prime_mminus1nminus1 = NULL,
+                        *l_prime_mn = NULL;
             WordCountList *tempList = NULL;
             for (int n = 0; n < this->categoryNumber; ++n) {
                 l_mn = this->basicDataModel->getWordCountList(m, n);
@@ -103,7 +123,11 @@ public:
                 // l_prime_mminus1nminus1 = this->getWordCountList(m - 1, n - 1);
                 l_prime_mminus1nminus1 = tempLists[n];
 
-                int size = l_prime_mnminus1->size() + l_prime_mminus1n->size() - l_prime_mminus1nminus1->size() + l_mn->size();
+                int size = 0;
+                if (l_prime_mnminus1 != NULL) size += l_prime_mnminus1->size();
+                if (l_prime_mminus1n != NULL) size += l_prime_mminus1n->size();
+                if (l_prime_mminus1nminus1 != NULL) size -= l_prime_mminus1nminus1->size();
+                if (l_mn != NULL) size += l_mn->size();
                 l_prime_mn = new WordCountList(size);
                 l_prime_mn->add(l_prime_mnminus1)
                         ->add(l_prime_mminus1n)
@@ -113,6 +137,9 @@ public:
 
                 WordCountList *nrList = new WordCountList(l_prime_mn->size());
                 nrList->negativeReverse(l_prime_mn);
+
+                this->saveWordCountList(m, n, l_prime_mn);
+                this->savenrWordCountList(m, n, nrList);
 
                 tempLists[n] = tempList;
                 tempList = l_prime_mn;
@@ -131,7 +158,8 @@ public:
 
     std::vector<WordCountList *>
     getListsByRange(int timeStart, int timeEnd, int categoryStart, int categoryEnd) {
-        return;
+        std::vector<WordCountList *> t;
+        return t;
     }
 
 };
