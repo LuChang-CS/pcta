@@ -96,6 +96,7 @@ public:
                     l->put(wordIndex, count);
                     ++wordIt;
                 }
+                l->sort();
                 ++it;
             }
             current = utils::nextDate(current);
