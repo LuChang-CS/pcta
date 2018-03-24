@@ -24,9 +24,8 @@ int main() {
     CategoryRange categoryRange(basePath / "categories_dict");
     TimeRange timeRange("2016-01-01", "2017-01-01");
 
-    BasicDataModel basicDataModel(&dictionary, &timeRange, &categoryRange);
-    basicDataModel.build(basePath);
-    basicDataModel.saveModel(basePath);
+    BasicDataModel basicDataModel(&dictionary, &timeRange, &categoryRange, basePath);
+    basicDataModel.build();
 
     // cout << basicDataModel.getTimeSlotNumber() << " " << basicDataModel.getCategoryNumber() << endl;
     PCTAModel pctaModel(&basicDataModel, basePath);
