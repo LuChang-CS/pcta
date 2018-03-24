@@ -19,8 +19,6 @@ public:
     BasicDataModel(Dictionary *dictionary, TimeRange *timeRange, CategoryRange *categoryRange, const fs::path &basePath)
     : DataModel(dictionary, timeRange, categoryRange, basePath) {
         this->modelPath = this->basePath / "model" / "basicModel";
-        std::cout << this->modelPath << ' ' << this->modelPath << std::endl;
-        exit(0);
     }
 
     void build() {
