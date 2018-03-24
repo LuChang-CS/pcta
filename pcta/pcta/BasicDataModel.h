@@ -32,7 +32,10 @@ public:
 
             fs::path p = this->basePath / utils::getPathFromDate(current) / "count";
             std::string content = utils::fileInputContent(p);
-            if (content.length() == 0) continue;
+            if (content.length() == 0) {
+                current = utils::nextDate(current);
+                continue;
+            };
 
             json::Document d;
             d.Parse(content.c_str());
