@@ -37,7 +37,7 @@ public:
             if (content.length() == 0) {
                 current = utils::nextDate(current);
                 continue;
-            };
+            }
 
             json::Document d;
             d.Parse(content.c_str());
