@@ -82,6 +82,7 @@ public:
         this->categoryRange = categoryRange;
         this->timeSlotNumber = timeRange->getTimeSlotNumber();
         this->categoryNumber = categoryRange->getCategoryNumber();
+        this->basePath = basePath;
     }
 
     virtual ~DataModel() {}

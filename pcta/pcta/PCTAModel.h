@@ -24,7 +24,7 @@ public:
     PCTAModel(BasicDataModel *basicDataModel, const fs::path &basePath)
     : DataModel(basicDataModel->getDictionary(), basicDataModel->getTimeRange(), basicDataModel->getCategoryRange(), basePath) {
         this->basicDataModel = basicDataModel;
-        this->modelPath = basePath / "model" / "pctaModel";
+        this->modelPath = this->basePath / "model" / "pctaModel";
     }
 
     void build() {
