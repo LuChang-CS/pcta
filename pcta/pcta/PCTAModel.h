@@ -54,7 +54,6 @@ public:
                 int size = 0;
                 if (l_prime_mnminus1 != NULL) size += l_prime_mnminus1->size();
                 if (l_prime_mminus1n != NULL) size += l_prime_mminus1n->size();
-                if (l_prime_mminus1nminus1 != NULL) size -= l_prime_mminus1nminus1->size();
                 if (l_mn != NULL) size += l_mn->size();
                 l_prime_mn = new WordCountList(size);
                 l_prime_mn->add(l_prime_mnminus1)
