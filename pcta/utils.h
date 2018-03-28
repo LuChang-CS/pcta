@@ -6,9 +6,11 @@
 #include <fstream>
 #include <sstream>
 #include <ctime>
+#include <chrono>
 #include <experimental/filesystem>
 
 namespace fs = std::experimental::filesystem;
+namespace ch = std::chrono;
 
 namespace utils {
     time_t str2time(const std::string &date, const char *format = "%Y-%m-%d") {
@@ -40,6 +42,13 @@ namespace utils {
         int day = tm.tm_mday;
         fs::path p = std::to_string(year);
         return p.append(std::to_string(month)).append(std::to_string(day));
+    }
+
+    long currentMilliTime() {
+        auto now = ch::system_clock::now();
+        auto now_ms = ch::time_point_cast<ch::milliseconds>(now);
+        auto value = now_ms.time_since_epoch();
+        return value.count();
     }
 }
 
