@@ -2,6 +2,7 @@
 #define __DATA_MODEL_H__
 
 #include <vector>
+#include <sstream>
 
 #include "../model/Dictionary.h"
 #include "../model/TimeRange.h"
@@ -41,12 +42,14 @@ protected:
 
     void saveList(const fs::path &p, WordCountList *l) {
         std::ofstream out(p.string());
-        out << l->size() << std::endl;
+        std::ostringstream oss;
+        oss << l->size() << std::endl;
         WordCountList::iterator it = l->begin();
         while (it != l->end()) {
-            out << (*it)->getWord() << ' ' << (*it)->getCount() << std::endl;
+            oss << (*it)->getWord() << ' ' << (*it)->getCount() << std::endl;
             ++it;
         }
+        out << oss.str();
         out.close();
     }
 
