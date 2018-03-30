@@ -73,7 +73,7 @@ public:
 
                 if (l_prime_mminus1nminus1 != NULL) delete l_prime_mminus1nminus1;
                 delete nrList;
-                delete l_mn;
+                if (l_mn != NULL) delete l_mn;
             }
             if (l_prime_mminus1n != NULL) delete l_prime_mminus1n;
             tempLists[this->categoryNumber] = l_prime_mn;

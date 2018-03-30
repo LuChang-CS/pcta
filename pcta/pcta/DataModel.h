@@ -2,7 +2,9 @@
 #define __DATA_MODEL_H__
 
 #include <vector>
+#include <fstream>
 #include <sstream>
+#include <string>
 
 #include "../model/Dictionary.h"
 #include "../model/TimeRange.h"
@@ -26,6 +28,7 @@ protected:
     }
 
     WordCountList *readList(const fs::path &p) {
+        if (!fs::exists(p)) return NULL;
         std::ifstream in(p.string());
         int size;
         in >> size;
